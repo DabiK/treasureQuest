@@ -1,4 +1,4 @@
 package main.java.com.app;
 
-public class Mountain implements CellValue {
+public record Mountain() implements CellValue {
 }

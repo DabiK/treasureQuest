@@ -34,8 +34,13 @@ public class Board {
         this.grid[mountainI][mountainJ].setValue(new Mountain());
     }
 
-    public CellValue getValueAt(int mountainI, int mountainJ) {
-        Cell cell = this.isValidCoords(mountainI, mountainJ) ? this.grid[mountainI][mountainJ] : null;
+
+    public void createTreasures(int amount, int treasureI, int treasureJ) {
+        this.grid[treasureI][treasureJ].setValue(new Treasure(amount));
+    }
+
+    public CellValue getValueAt(int i, int j) {
+        Cell cell = this.isValidCoords(i, j) ? this.grid[i][j] : null;
         return cell == null ? null : cell.getValue();
     }
 
@@ -43,7 +48,7 @@ public class Board {
         return i >= 0 && i < this.height && j >=0 && j < this.width;
     }
 
-    public void checkCoords(int i, int j){
+    private void checkCoords(int i, int j){
         if( !this.isValidCoords(i,j)){
             throw new IndexOutOfBoundsException();
         }
