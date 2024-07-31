@@ -8,55 +8,58 @@ class BoardTest {
 
     @Test
     public void creation_withCorrectData_shouldSucceed() {
-        Board board = new Board();
-        fail();
+        int width = 5;
+        int height = 5;
+        Board board = new Board(width, height);
+        assertEquals(board.getHeight(), height);
+        assertEquals(board.getWidth(), width);
     }
 
     @Test
     public void creation_withSizeGreatherThan85182_shouldFail() {
-        Board board = new Board();
+        // Board board = new Board();
         fail();
     }
 
     @Test
     public void createMountains_withCorrectCoords_shouldSucceed() {
-        Board board = new Board();
+        // Board board = new Board();
         fail();
     }
 
     @Test
     public void createMountains_withMountainWithInvalidCords_shouldFail() {
-        Board board = new Board();
+// Board board = new Board();
         fail();
     }
 
     @Test
     public void createTreasures_withTreasuresWithCorrectCoordsAndCorrectAmount_shouldSucceed() {
-        Board board = new Board();
+        // Board board = new Board();
         fail();
     }
 
     @Test
     public void createTreasures_withCorrectCoordsAndCorrectAmountSameSpot_shouldSucceed() {
-        Board board = new Board();
+        // Board board = new Board();
         fail();
     }
 
     @Test
     public void createTreasures_withInvalidCoords_shouldFail() {
-        Board board = new Board();
+        // Board board = new Board();
         fail();
     }
 
     @Test
     public void createTreasures_withWithNegativeAmount_shouldFail() {
-        Board board = new Board();
+        // Board board = new Board();
         fail();
     }
 
     @Test
     public void toString_withCorrectMountainsAndTreasures_shouldSucceed() {
-        Board board = new Board();
+        // Board board = new Board();
         fail();
     }
 
