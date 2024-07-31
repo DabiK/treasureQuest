@@ -76,8 +76,19 @@ class BoardTest {
 
     @Test
     public void createTreasures_withCorrectCoordsAndCorrectAmountSameSpot_shouldSucceed() {
-        // Board board = new Board();
-        fail();
+        int width = 5;
+        int height = 5;
+        int amount = 1;
+        int treasureI = 2;
+        int treasureJ = 2;
+
+        Board board = new Board(width, height);
+        board.createTreasures(amount, treasureI, treasureJ);
+        board.createTreasures(amount, treasureI, treasureJ);
+        CellValue cellValue = board.getValueAt(treasureI, treasureJ);
+
+        assertNotNull(cellValue);
+        assertInstanceOf(Treasure.class,cellValue);
     }
 
     @Test
