@@ -1,6 +1,8 @@
 package main.java.com.app;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -38,10 +40,22 @@ class BoardTest {
         assertInstanceOf(Mountain.class,cellValue);
     }
 
-    @Test
-    public void createMountains_withMountainWithInvalidCords_shouldFail() {
-// Board board = new Board();
-        fail();
+    @ParameterizedTest
+    @CsvSource({
+            "6, 2",
+            "2, 6",
+            "6, 6"
+    })
+    public void createMountains_withMountainWithInvalidCords_shouldFail(int mountainI, int mountainJ) {
+        int width = 5;
+        int height = 5;
+
+        Board board = new Board(width, height);
+        IndexOutOfBoundsException exception = assertThrows(IndexOutOfBoundsException.class, () -> { board.createMountain(mountainI, mountainJ);; });
+        CellValue cellValue = board.getValueAt(mountainI, mountainJ);
+
+        assertNotNull(exception);
+        assertNull(cellValue);
     }
 
     @Test
