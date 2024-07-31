@@ -17,8 +17,10 @@ class BoardTest {
 
     @Test
     public void creation_withSizeGreatherThan85182_shouldFail() {
-        // Board board = new Board();
-        fail();
+        int width = 25000;
+        int height = 25000;
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> { new Board(width, height); });
+        assertEquals(String.format("Area is too big max is {0}", Board.MAX_AREA), exception.getMessage());
     }
 
     @Test
