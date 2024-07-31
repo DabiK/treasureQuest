@@ -25,8 +25,17 @@ class BoardTest {
 
     @Test
     public void createMountains_withCorrectCoords_shouldSucceed() {
-        // Board board = new Board();
-        fail();
+        int width = 5;
+        int height = 5;
+        int mountainI = 2;
+        int mountainJ = 2;
+
+        Board board = new Board(width, height);
+        board.createMountain(mountainI, mountainJ);
+        CellValue cellValue = board.getValueAt(mountainI, mountainJ);
+
+        assertNotNull(cellValue);
+        assertInstanceOf(Mountain.class,cellValue);
     }
 
     @Test
