@@ -2,7 +2,7 @@ package main.java.com.app;
 
 public class BoardParser {
 
-    public Board getBoardFromFile(String filename){
+    public static Board getBoardFromString(String content){
         return null;
     }
 }

@@ -33,7 +33,7 @@ public class Board {
     public int getHeight() {
         return height;
     }
-    
+
     public void createMountain(int mountainI, int mountainJ) {
         this.checkCoords(mountainI, mountainJ);
         this.grid[mountainI][mountainJ].setValue(new Mountain(mountainI, mountainJ));
