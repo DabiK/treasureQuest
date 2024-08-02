@@ -51,7 +51,7 @@ class BoardTest {
         int height = 5;
 
         Board board = new Board(width, height);
-        IndexOutOfBoundsException exception = assertThrows(IndexOutOfBoundsException.class, () -> { board.createMountain(mountainI, mountainJ);; });
+        IndexOutOfBoundsException exception = assertThrows(IndexOutOfBoundsException.class, () -> { board.createMountain(mountainI, mountainJ); });
         CellValue cellValue = board.getValueAt(mountainI, mountainJ);
 
         assertNotNull(exception);
@@ -72,6 +72,10 @@ class BoardTest {
 
         assertNotNull(cellValue);
         assertInstanceOf(Treasure.class,cellValue);
+
+        Treasure treasure = (Treasure) cellValue;
+        assertEquals(treasure.amount(), amount);
+
     }
 
     @Test
@@ -89,24 +93,72 @@ class BoardTest {
 
         assertNotNull(cellValue);
         assertInstanceOf(Treasure.class,cellValue);
+
+        Treasure treasure = (Treasure) cellValue;
+        assertEquals(treasure.amount(), amount);
     }
 
-    @Test
-    public void createTreasures_withInvalidCoords_shouldFail() {
-        // Board board = new Board();
-        fail();
+    @ParameterizedTest
+    @CsvSource({
+            "6, 2",
+            "2, 6",
+            "6, 6"
+    })
+    public void createTreasures_withInvalidCoords_shouldFail(int treasureI, int treasureJ) {
+        int width = 5;
+        int height = 5;
+        int amount = 1;
+
+        Board board = new Board(width, height);
+        IndexOutOfBoundsException exception = assertThrows(IndexOutOfBoundsException.class, () -> { board.createTreasures(amount, treasureI, treasureJ); });
+        CellValue cellValue = board.getValueAt(treasureI, treasureJ);
+
+        assertNotNull(exception);
+        assertNull(cellValue);
     }
 
     @Test
     public void createTreasures_withWithNegativeAmount_shouldFail() {
-        // Board board = new Board();
-        fail();
+        int width = 5;
+        int height = 5;
+        int amount = -1;
+        int treasureI = 2;
+        int treasureJ = 2;
+
+        Board board = new Board(width, height);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> { board.createTreasures(amount, treasureI, treasureJ); });
+        CellValue cellValue = board.getValueAt(treasureI, treasureJ);
+
+        assertNotNull(exception);
+        assertEquals(Board.NEGATIVE_AMOUNT_ERROR, exception.getMessage());
+        assertNull(cellValue);
     }
 
     @Test
     public void toString_withCorrectMountainsAndTreasures_shouldSucceed() {
-        // Board board = new Board();
-        fail();
+        int width = 5;
+        int height = 5;
+
+        Board board = new Board(width, height);
+        board.createMountain(0,0);
+        board.createMountain(1,1);
+        board.createMountain(2,1);
+        board.createMountain(0,0);
+        board.createTreasures(2, 1, 3);
+        board.createTreasures(5, 2, 2);
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("C - %d - %d\n", width, height))
+                .append(String.format("M - %d - %d\n", 0, 0))
+                .append(String.format("M - %d - %d\n", 1, 1))
+                .append(String.format("M - %d - %d\n", 2, 1))
+                .append(String.format("T - %d - %d - %d\n", 2, 1, 3))
+                .append(String.format("T - %d - %d - %d\n", 5, 2, 2));
+
+
+        String out = board.toString();
+        assertEquals(sb.toString(), out);
     }
 
 }
