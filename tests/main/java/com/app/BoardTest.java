@@ -161,4 +161,6 @@ class BoardTest {
         assertEquals(sb.toString(), out);
     }
 
+    //TODO add test for width height with negative values
+
 }
