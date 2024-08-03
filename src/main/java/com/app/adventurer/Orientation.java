@@ -3,7 +3,7 @@ package main.java.com.app.adventurer;
 public enum Orientation {
     N("N"),
     S("S"),
-    W("W"),
+    W("O"),
     E("E");
 
 
@@ -11,5 +11,9 @@ public enum Orientation {
 
     Orientation(String key) {
         this.key = key;
+    }
+
+    public String getKey() {
+        return key;
     }
 }

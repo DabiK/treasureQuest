@@ -1,6 +1,8 @@
 package main.java.com.app.adventurer;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import static org.junit.Assert.*;
 
@@ -23,9 +25,21 @@ class AdventurerTest {
         assertArrayEquals(sequence, adventurer.getSequence());
     }
 
-    @Test
-    public void turnLeft_shouldSucceed(){
-
+    @ParameterizedTest
+    @CsvSource({
+            "E, N",
+            "N, W",
+            "W, S",
+            "S, E"
+    })
+    public void turnLeft_shouldSucceed(Orientation orientation, Orientation expectedOrientation){
+        String name = "Luffy";
+        int i = 0;
+        int j = 0;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, };
+        Adventurer adventurer = new Adventurer(name, i, j, orientation, sequence);
+        adventurer.turnLeft();
+        assertEquals(expectedOrientation, adventurer.getOrientation());
     }
 
     @Test
@@ -42,5 +56,6 @@ class AdventurerTest {
     public void runSequence_shouldSucceed(){
         fail();
     }
+
 
 }
