@@ -3,6 +3,8 @@ package main.java.com.app;
 import main.java.com.app.exception.BoardParserNegativeDimensionException;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardParserTest {
@@ -25,27 +27,31 @@ class BoardParserTest {
     public void getBoardFromString_fromCorrectFileWithOnlyMountain_shouldSucceed() {
         int width = 5;
         int height = 5;
+        Mountain[] mountainsInput = {new Mountain(0,0), new Mountain(1,1), new Mountain(1,2)};
 
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("C - %d - %d\n", width, height))
-                .append(String.format("M - %d - %d\n", 0, 0))
-                .append(String.format("M - %d - %d\n", 1, 1))
-                .append(String.format("M - %d - %d\n", 2, 1));
+                .append(Arrays.stream(mountainsInput).map(
+                        (mountainInput) ->
+                                String.format("M - %d - %d\n", mountainInput.j(), mountainInput.i())
+                ).reduce("", String::concat)
+        );
 
         String content = sb.toString();
         Board board = BoardParser.getBoardFromString(content);
 
-       CellValue value1 = board.getValueAt(0,0);
-       CellValue value2 = board.getValueAt(1,1);
-       CellValue value3 = board.getValueAt(2,1);
+        CellValue[] mountains = {
+                board.getValueAt(mountainsInput[0].i(),mountainsInput[0].j()),
+                board.getValueAt(mountainsInput[1].i(),mountainsInput[1].j()),
+                board.getValueAt(mountainsInput[2].i(),mountainsInput[2].j()),
+        };
 
-       assertNotNull(value1);
-       assertNotNull(value2);
-       assertNotNull(value3);
-
-       assertTrue(value1 instanceof Mountain);
-       assertTrue(value2 instanceof Mountain);
-       assertTrue(value3 instanceof Mountain);
+        for (int i = 0; i < mountains.length ; i++) {
+            CellValue value = mountains[i];
+            assertTrue(value instanceof Mountain);
+            Mountain mountain = (Mountain) mountains[i];
+            assertTrue(mountain.equals(mountainsInput[i]));
+        }
     }
 
 
@@ -54,30 +60,79 @@ class BoardParserTest {
         int width = 10;
         int height = 10;
 
+        Treasure[] treasuresInput = {new Treasure(3,2,1),new Treasure(2,5,2)};
+
         StringBuilder sb = new StringBuilder();
-        sb.append(String.format("C - %d - %d\n", width, height))
-                .append(String.format("T - %d - %d - %d\n", 2, 1, 3))
-                .append(String.format("T - %d - %d - %d\n", 5, 2, 2));
+        sb.append(String.format("C - %d - %d\n", width, height));
+
+        sb.append(Arrays.stream(treasuresInput).map(
+                        (treasureInput) ->
+                                String.format("T - %d - %d - %d\n", treasureInput.j(), treasureInput.i(), treasureInput.amount()
+                                )
+                ).reduce("", String::concat)
+        );
 
         String content = sb.toString();
         Board board = BoardParser.getBoardFromString(content);
 
-        CellValue value1 = board.getValueAt(2, 1);
-        CellValue value2 = board.getValueAt(5, 2);
+        CellValue[] treasures = {board.getValueAt(treasuresInput[0].i(), treasuresInput[0].j()), board.getValueAt(treasuresInput[1].i(), treasuresInput[1].j())};
 
-        assertNotNull(value1);
-        assertNotNull(value2);
 
-        assertTrue(value1 instanceof Treasure);
-        assertTrue(value2 instanceof Treasure);
-
-        assertEquals(((Treasure) value1).amount(), 3);
-        assertEquals(((Treasure) value2).amount(), 2);
+        for (int i = 0; i < treasures.length ; i++) {
+            CellValue value = treasures[i];
+            assertTrue(value instanceof Treasure);
+            Treasure treasure = (Treasure) treasures[i];
+            assertTrue(treasure.equals(treasuresInput[i]));
+        }
     }
 
     @Test
     public void getBoardFromString_fromCorrectFileWithAllKindOfItem_shouldSucceed() {
-        fail();
+        int width = 10;
+        int height = 10;
+
+        Mountain[] mountainsInput = {new Mountain(0,0), new Mountain(1,1), new Mountain(2,2)};
+        Treasure[] treasuresInput = {new Treasure(3,2,1),new Treasure(2,5,2)};
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("C - %d - %d\n", width, height));
+
+        sb.append(Arrays.stream(mountainsInput).map(
+                        (mountainInput) ->
+                                String.format("M - %d - %d\n", mountainInput.j(), mountainInput.i())
+                ).reduce("", String::concat)
+        );
+        sb.append(Arrays.stream(treasuresInput).map(
+                        (treasureInput) ->
+                                String.format("T - %d - %d - %d\n", treasureInput.j(), treasureInput.i(), treasureInput.amount()
+                                )
+                ).reduce("", String::concat)
+        );
+
+        String content = sb.toString();
+        Board board = BoardParser.getBoardFromString(content);
+
+        CellValue[] treasures = {board.getValueAt(treasuresInput[0].i(), treasuresInput[0].j()), board.getValueAt(treasuresInput[1].i(), treasuresInput[1].j())};
+        CellValue[] mountains = {
+                board.getValueAt(mountainsInput[0].i(),mountainsInput[0].j()),
+                board.getValueAt(mountainsInput[1].i(),mountainsInput[1].j()),
+                board.getValueAt(mountainsInput[2].i(),mountainsInput[2].j()),
+        };
+
+
+        for (int i = 0; i < mountains.length ; i++) {
+            CellValue value = mountains[i];
+            assertTrue(value instanceof Mountain);
+            Mountain mountain = (Mountain) mountains[i];
+            assertTrue(mountain.equals(mountainsInput[i]));
+        }
+
+        for (int i = 0; i < treasures.length ; i++) {
+            CellValue value = treasures[i];
+            assertTrue(value instanceof Treasure);
+            Treasure treasure = (Treasure) treasures[i];
+            assertTrue(treasure.equals(treasuresInput[i]));
+        }
     }
 
 

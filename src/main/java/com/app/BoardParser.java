@@ -26,13 +26,13 @@ public class BoardParser {
             char itemType = parts[0].charAt(0);
 
             if (CellType.MOUNTAIN.getKey() == itemType) {
-                int mountainI = Integer.parseInt(parts[1]);
-                int mountainJ = Integer.parseInt(parts[2]);
+                int mountainJ = Integer.parseInt(parts[1]);
+                int mountainI = Integer.parseInt(parts[2]);
                 board.createMountain(mountainI, mountainJ);
             }
             if (CellType.TREASURE.getKey() == itemType) {
-                int treasureI = Integer.parseInt(parts[1]);
-                int treasureJ = Integer.parseInt(parts[2]);
+                int treasureJ = Integer.parseInt(parts[1]);
+                int treasureI = Integer.parseInt(parts[2]);
                 int treasureAmount = Integer.parseInt(parts[3]);
                 board.createTreasures(treasureAmount, treasureI, treasureJ);
             }
