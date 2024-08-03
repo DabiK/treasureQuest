@@ -8,6 +8,7 @@ public class Adventurer {
     private String name;
     private int i;
     private int j;
+    private int treasure;
     private Orientation orientation;
     private AdventurerSequence[] sequence;
 
@@ -32,7 +33,21 @@ public class Adventurer {
         if(orientation == null){
             throw new IllegalArgumentException("Orientation should not be null");
         }
+        if(sequence == null){
+            throw new IllegalArgumentException("Orientation should not be null");
+        }
+        this.orientation = orientation;
+        this.sequence = sequence;
+    }
 
+    protected Adventurer(String name, int i, int j, Orientation orientation, AdventurerSequence[] sequence, int treasure) {
+        this.name = name;
+        this.i = i;
+        this.j = j;
+        this.treasure = treasure;
+        if(orientation == null){
+            throw new IllegalArgumentException("Orientation should not be null");
+        }
         if(sequence == null){
             throw new IllegalArgumentException("Orientation should not be null");
         }
@@ -97,5 +112,10 @@ public class Adventurer {
 
     public AdventurerSequence[] getSequence() {
         return sequence;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s - %d - %d - %s - %d", name,j, i, orientation,treasure);
     }
 }

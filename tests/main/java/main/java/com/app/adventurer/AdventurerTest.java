@@ -95,6 +95,20 @@ class AdventurerTest {
     }
 
 
+    @ParameterizedTest
+    @CsvSource({
+            "'Luffy', 0, 0, N, 0, 'Luffy - 0 - 0 - N - 0'",
+            "'Zoro', 12342, 4949, S, 12, 'Zoro - 12342 - 4949 - S - 12'",
+            "'Nami', 1, 0, W, 100000, 'Nami - 1 - 0 - W - 100000'",
+            "'Sanji', 1, 0, E, 0, 'Sanji - 1 - 0 - E - 0'",
+    })
+    public void adventuredToString_shouldSucced(String name,int j,  int i ,  Orientation orientation, int treasure, String expectedOut){
+        Adventurer adventurer = new Adventurer(name,i,j, orientation, new AdventurerSequence[]{}, treasure);
+        String out = adventurer.toString();
+        assertEquals(expectedOut,out);
+    }
+
+
     // Provide the sequences as method source
     private static Stream<SequenceTestsData> provideSequences() {
         return Stream.of(
