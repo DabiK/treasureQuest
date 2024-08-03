@@ -31,11 +31,7 @@ class BoardParserTest {
 
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("C - %d - %d\n", width, height))
-                .append(Arrays.stream(mountainsInput).map(
-                        (mountainInput) ->
-                                String.format("M - %d - %d\n", mountainInput.j(), mountainInput.i())
-                ).reduce("", String::concat)
-        );
+                .append(createMountainInputString(mountainsInput));
 
         String content = sb.toString();
         Board board = BoardParser.getBoardFromString(content);
@@ -64,13 +60,7 @@ class BoardParserTest {
 
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("C - %d - %d\n", width, height));
-
-        sb.append(Arrays.stream(treasuresInput).map(
-                        (treasureInput) ->
-                                String.format("T - %d - %d - %d\n", treasureInput.j(), treasureInput.i(), treasureInput.amount()
-                                )
-                ).reduce("", String::concat)
-        );
+        sb.append(createTreasureInputString(treasuresInput));
 
         String content = sb.toString();
         Board board = BoardParser.getBoardFromString(content);
@@ -97,17 +87,8 @@ class BoardParserTest {
         StringBuilder sb = new StringBuilder();
         sb.append(String.format("C - %d - %d\n", width, height));
 
-        sb.append(Arrays.stream(mountainsInput).map(
-                        (mountainInput) ->
-                                String.format("M - %d - %d\n", mountainInput.j(), mountainInput.i())
-                ).reduce("", String::concat)
-        );
-        sb.append(Arrays.stream(treasuresInput).map(
-                        (treasureInput) ->
-                                String.format("T - %d - %d - %d\n", treasureInput.j(), treasureInput.i(), treasureInput.amount()
-                                )
-                ).reduce("", String::concat)
-        );
+        sb.append(createMountainInputString(mountainsInput));
+        sb.append(createTreasureInputString(treasuresInput));
 
         String content = sb.toString();
         Board board = BoardParser.getBoardFromString(content);
@@ -118,7 +99,6 @@ class BoardParserTest {
                 board.getValueAt(mountainsInput[1].i(),mountainsInput[1].j()),
                 board.getValueAt(mountainsInput[2].i(),mountainsInput[2].j()),
         };
-
 
         for (int i = 0; i < mountains.length ; i++) {
             CellValue value = mountains[i];
@@ -156,6 +136,19 @@ class BoardParserTest {
     @Test
     public void getBoardFromFile_withEmptyFile_shouldReturnEmptyBoardWithCorrectDimension() {
         fail();
+    }
+
+
+    private String createMountainInputString(Mountain[] mountains) {
+        return Arrays.stream(mountains)
+                .map(m -> String.format("M - %d - %d\n", m.j(), m.i()))
+                .reduce("", String::concat);
+    }
+
+    private String createTreasureInputString(Treasure[] treasures) {
+        return Arrays.stream(treasures)
+                .map(t -> String.format("T - %d - %d - %d\n", t.j(), t.i(), t.amount()))
+                .reduce("", String::concat);
     }
 
 
