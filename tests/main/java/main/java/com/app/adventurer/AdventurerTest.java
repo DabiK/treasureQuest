@@ -42,14 +42,41 @@ class AdventurerTest {
         assertEquals(expectedOrientation, adventurer.getOrientation());
     }
 
-    @Test
-    public void turnRight_shouldSucceed(){
-        fail();
+    @ParameterizedTest
+    @CsvSource({
+            "E, S",
+            "S, W",
+            "W, N",
+            "N, E"
+    })
+    public void turnRight_shouldSucceed(Orientation orientation, Orientation expectedOrientation){
+        String name = "Luffy";
+        int i = 0;
+        int j = 0;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, };
+        Adventurer adventurer = new Adventurer(name, i, j, orientation, sequence);
+        adventurer.turnRight();
+        assertEquals(expectedOrientation, adventurer.getOrientation());
     }
 
-    @Test
-    public void moveForward_shouldSucceed(){
-        fail();
+    @ParameterizedTest
+    @CsvSource({
+            "E, 0, 0, 0, 1",
+            "S, 0, 0, 1, 0",
+            "N, 1, 1, 0, 1",
+            "W, 1, 1, 1, 0",
+            "W, 0, 0, 0, 0",
+            "N, 0, 0, 0, 0",
+    })
+    public void moveForward_shouldSucceed(Orientation orientation, int i, int j, int expectedI, int expectedJ){
+        String name = "Luffy";
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, };
+        Adventurer adventurer = new Adventurer(name, i, j, orientation, sequence);
+
+        adventurer.moveForward();
+
+        assertEquals(expectedI,adventurer.getI());
+        assertEquals(expectedJ,adventurer.getJ());
     }
 
     @Test

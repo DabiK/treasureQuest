@@ -17,6 +17,13 @@ public class Adventurer {
             Orientation.S, Orientation.E
     );
 
+    private static final Map<Orientation, Orientation> turnRightMapping = Map.of(
+            Orientation.E, Orientation.S,
+            Orientation.S, Orientation.W,
+            Orientation.W, Orientation.N,
+            Orientation.N, Orientation.E
+    );
+
     public Adventurer(String name, int i, int j, Orientation orientation, AdventurerSequence[] sequence) {
         this.name = name;
         this.i = i;
@@ -35,6 +42,19 @@ public class Adventurer {
 
     public void turnLeft() {
         this.orientation = Adventurer.turnLeftMapping.get(this.orientation);
+    }
+
+    public void turnRight() {
+        this.orientation = Adventurer.turnRightMapping.get(this.orientation);
+    }
+
+    public void moveForward() {
+        switch (orientation){
+            case E -> ++j;
+            case N -> i = Math.max(0, i - 1);
+            case S -> ++i;
+            case W -> j = Math.max(0, j - 1);
+        }
     }
 
 
@@ -57,5 +77,4 @@ public class Adventurer {
     public AdventurerSequence[] getSequence() {
         return sequence;
     }
-
 }
