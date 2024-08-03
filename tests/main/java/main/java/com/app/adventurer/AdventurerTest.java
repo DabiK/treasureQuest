@@ -163,7 +163,7 @@ class AdventurerTest {
 
         assertFalse(adventurer.runNextSequence());
     }
-    
+
 
     private record SequenceTestsData(AdventurerSequence[] sequence, int startI, int startJ, Orientation startOrientation, int expectedI, int expectedJ) {};
 

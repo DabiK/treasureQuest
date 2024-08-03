@@ -84,5 +84,63 @@ class TreasureQuestTest {
     }
 
 
+    @Test
+    void runSimulation_with2Player_shouldCollectTreasure(){
+
+        Board board = new Board(5, 5);
+        board.createTreasures(1, 1, 1);
+        board.createTreasures(2, 2, 1);
+        board.createTreasures(3, 3, 2);
+
+        Adventurer adventurer1 = new Adventurer("Luffy", 0, 0, Orientation.E,
+                new AdventurerSequence[]{AdventurerSequence.A,AdventurerSequence.D, AdventurerSequence.A,  AdventurerSequence.A}, 0, board);
+        Adventurer adventurer2 = new Adventurer("Zoro", 4, 4, Orientation.W,
+                new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.D, AdventurerSequence.A}, 0, board);
+
+        TreasureQuest treasureQuest = new TreasureQuest(board, Arrays.asList(adventurer1, adventurer2));
+        treasureQuest.runSimulation();
+
+        assertEquals(2, adventurer1.getTreasure());
+        assertEquals(2, adventurer1.getI());
+        assertEquals(1, adventurer1.getJ());
+
+        assertEquals(1, adventurer2.getTreasure());
+        assertEquals(3, adventurer2.getI());
+        assertEquals(2, adventurer2.getJ());
+
+        // Check if the treasures on the board have been collected correctly
+        assertFalse(board.isTreasureAt(1, 1)); // Treasure at (1, 1) should be collected
+        assertFalse(board.isTreasureAt(1, 1)); // Treasure at (2, 1) should be collected
+        assertFalse(board.isTreasureAt(2, 2)); // Treasure at (2, 2) should be collected
+    }
+
+
+    @Test
+    void runSimulation_with2PlayerWithConflifOfTreasure_1PlayerShouldCollect(){
+
+        Board board = new Board(5, 5);
+        board.createTreasures(1, 1, 1);
+
+        Adventurer adventurer1 = new Adventurer("Luffy", 1, 0, Orientation.E,
+                new AdventurerSequence[]{AdventurerSequence.A,}, 0, board);
+        Adventurer adventurer2 = new Adventurer("Zoro", 1, 2, Orientation.W,
+                new AdventurerSequence[]{AdventurerSequence.A,}, 0, board); // should not move cause will bump into player 1
+
+        TreasureQuest treasureQuest = new TreasureQuest(board, Arrays.asList(adventurer1, adventurer2));
+        treasureQuest.runSimulation();
+
+        assertEquals(1, adventurer1.getTreasure());
+        assertEquals(1, adventurer1.getI());
+        assertEquals(1, adventurer1.getJ());
+
+        assertEquals(0, adventurer2.getTreasure());
+        assertEquals(1, adventurer2.getI());
+        assertEquals(2, adventurer2.getJ());
+
+        // Check if the treasures on the board have been collected correctly
+        assertFalse(board.isTreasureAt(1, 1)); // Treasure at (1, 1) should be collected
+    }
+
+
 
 }
