@@ -4,12 +4,26 @@ import main.java.com.app.exception.BoardParserNegativeDimensionException;
 import main.java.com.app.exception.InvalidArgumentLength;
 import main.java.com.app.exception.InvalidIdentifierException;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class BoardParser {
 
     public static final String DIMENSION_KEY = "C";
+
+    public static Board getBoardFromFile(String filePath) {
+        String content;
+        try {
+            content = readFileAsString(filePath);
+        } catch (IOException e) {
+            throw new RuntimeException("File not found: " + filePath, e);
+        }
+        return getBoardFromString(content);
+    }
 
     public static Board getBoardFromString(String content){
         String[] lines = content.split("\n");
@@ -56,5 +70,10 @@ public class BoardParser {
         if (chunks.length != expectedLength){
             throw new InvalidArgumentLength(expectedLength, line);
         }
+    }
+
+    private static String readFileAsString(String filePath) throws IOException {
+        Path path = Paths.get(filePath);
+        return Files.readString(path);
     }
 }

@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -128,24 +131,26 @@ class BoardParserTest {
     })
     public void getBoardFromString_withInvalidRegexPattern_shouldFail(String input, String cause) {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->  BoardParser.getBoardFromString(input));
+        assertNotNull(exception);
         assertEquals(cause,exception.getMessage());
     }
 
     @Test
-    public void getBoardFromString_withMultipleDimensionLine_shouldFail() {
-        fail();
-    }
-
-
-
-    @Test
     public void getBoardFromFile_withFileNotFound_shouldRaiseAnException() {
-        fail();
+        String filepath = "not-found.txt";
+        RuntimeException exception =  assertThrows(RuntimeException.class, () -> BoardParser.getBoardFromFile(filepath));
+        assertNotNull(exception);
+        assertEquals("File not found: "+filepath, exception.getMessage());
     }
 
     @Test
-    public void getBoardFromFile_withEmptyFile_shouldReturnEmptyBoardWithCorrectDimension() {
-        fail();
+    public void getBoardFromFile_withEmptyFile_shouldReturnEmptyBoardWithCorrectDimension() throws URISyntaxException {
+        String filepath = "getBoardFromFile_withEmptyFile_shouldReturnEmptyBoardWithCorrectDimension.txt";
+        Path path = Paths.get(getClass().getClassLoader().getResource(filepath).toURI());
+        Board board = BoardParser.getBoardFromFile(path.toAbsolutePath().toString());
+        assertEquals(board.getWidth(),3);
+        assertEquals(board.getHeight(),4);
+
     }
 
 
