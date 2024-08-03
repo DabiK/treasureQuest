@@ -30,7 +30,7 @@ public record Mountain(int i, int j) implements CellValue {
 
     @Override
     public String toString() {
-        return String.format("M - %d - %d\n", i, j);
+        return String.format("M - %d - %d", i, j);
     }
 
 }

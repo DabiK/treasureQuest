@@ -101,7 +101,8 @@ public class Board {
         cellList.sort(null);
 
         for (Cell cell : cellList) {
-            sb.append(cell);
+            String stringValue = cell.toString();
+            sb.append(stringValue.isEmpty() ? "" : String.format("%s\n", stringValue));
         }
 
         return sb.toString();
