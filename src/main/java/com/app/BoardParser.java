@@ -20,6 +20,17 @@ public class BoardParser {
             throw new BoardParserNegativeDimensionException();
         }
         Board board = new Board(width,height);
+
+        for (String line : lines) {
+            parts = line.split(" - ");
+            char itemType = parts[0].charAt(0);
+
+            if (CellType.MOUNTAIN.getKey() == itemType) {
+                int mRow = Integer.parseInt(parts[1]);
+                int mCol = Integer.parseInt(parts[2]);
+                board.createMountain(mRow, mCol);
+            }
+        }
         return board;
     }
 }

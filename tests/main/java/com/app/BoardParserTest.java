@@ -22,19 +22,32 @@ class BoardParserTest {
     }
 
     @Test
-    public void getBoardFromString_withInvalidRegexPattern_shouldFail() {
-        fail();
-    }
-
-    @Test
-    public void getBoardFromString_withMultipleDimensionLine_shouldFail() {
-        fail();
-    }
-
-    @Test
     public void getBoardFromString_fromCorrectFileWithOnlyMountain_shouldSucceed() {
-        fail();
+        int width = 5;
+        int height = 5;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("C - %d - %d\n", width, height))
+                .append(String.format("M - %d - %d\n", 0, 0))
+                .append(String.format("M - %d - %d\n", 1, 1))
+                .append(String.format("M - %d - %d\n", 2, 1));
+
+        String content = sb.toString();
+        Board board = BoardParser.getBoardFromString(content);
+
+       CellValue value1 = board.getValueAt(0,0);
+       CellValue value2 = board.getValueAt(1,1);
+       CellValue value3 = board.getValueAt(2,1);
+
+       assertNotNull(value1);
+       assertNotNull(value1);
+       assertNotNull(value1);
+
+       assertTrue(value1 instanceof Mountain);
+       assertTrue(value2 instanceof Mountain);
+       assertTrue(value3 instanceof Mountain);
     }
+
 
     @Test
     public void getBoardFromString_fromCorrectFileWithOnlyThreasure_shouldSucceed() {
@@ -45,6 +58,19 @@ class BoardParserTest {
     public void getBoardFromString_fromCorrectFileWithAllKindOfItem_shouldSucceed() {
         fail();
     }
+
+
+    @Test
+    public void getBoardFromString_withInvalidRegexPattern_shouldFail() {
+        fail();
+    }
+
+    @Test
+    public void getBoardFromString_withMultipleDimensionLine_shouldFail() {
+        fail();
+    }
+
+
 
     @Test
     public void getBoardFromFile_withFileNotFound_shouldRaiseAnException() {
