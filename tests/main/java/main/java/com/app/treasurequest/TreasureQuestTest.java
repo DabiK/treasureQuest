@@ -69,12 +69,12 @@ class TreasureQuestTest {
         sb.append(String.format("C - %d - %d\n", 10, 10))
                 .append(String.format("M - %d - %d\n", 0, 0))
                 .append(String.format("M - %d - %d\n", 1, 1))
-                .append(String.format("M - %d - %d\n", 2, 1))
-                .append(String.format("T - %d - %d - %d\n", 2, 1, 3))
-                .append(String.format("T - %d - %d - %d\n", 5, 2, 2))
-                .append("Luffy - 7 - 7 - E - 0\n")
-                .append("Zoro - 8 - 8 - N - 0\n")
-                .append("Nami - 9 - 9 - S - 0");
+                .append(String.format("M - %d - %d\n", 1, 2))
+                .append(String.format("T - %d - %d - %d\n", 3, 1, 2))
+                .append(String.format("T - %d - %d - %d\n", 2, 2, 5))
+                .append("A - Luffy - 7 - 7 - E - 0\n")
+                .append("A - Zoro - 8 - 8 - N - 0\n")
+                .append("A - Nami - 9 - 9 - S - 0");
 
         TreasureQuest treasureQuest = new TreasureQuest(board, Arrays.asList(adventurer1, adventurer2, adventurer3));
         String out = treasureQuest.toString();
@@ -139,6 +139,77 @@ class TreasureQuestTest {
 
         // Check if the treasures on the board have been collected correctly
         assertFalse(board.isTreasureAt(1, 1)); // Treasure at (1, 1) should be collected
+    }
+
+    @Test
+    public void runSimulation_withBaseCase_shouldSucceed(){
+        String input =
+                "C - 3 - 4\n" +
+                "M - 1 - 0\n" +
+                "M - 2 - 1\n" +
+                "T - 0 - 3 - 2\n" +
+                "T - 1 - 3 - 3\n" +
+                "A - Lara - 1 - 1 - S - AADADAGGA";
+
+        String expectedOutput = "C - 3 - 4\n" +
+                "M - 1 - 0\n" +
+                "M - 2 - 1\n" +
+                "T - 1 - 3 - 2\n"+
+                "A - Lara - 0 - 3 - S - 3";
+
+        TreasureQuest treasureQuest = TreasureQuestParser.getTreasureQuestFromString(input);
+        treasureQuest.runSimulation();
+
+        String output = treasureQuest.toString();
+        assertEquals(expectedOutput, output);
+    }
+
+    @Test
+    public void runSimulation_withBaseCaseWithMoutain_shouldRemainStuck(){
+        String input =
+                "C - 3 - 4\n" +
+                        "M - 1 - 0\n" +
+                        "M - 2 - 1\n" +
+                        "T - 0 - 3 - 2\n" +
+                        "T - 1 - 3 - 3\n" +
+                        "A - Lara - 2 - 0 - S - AADADAGGA";
+
+        String expectedOutput = "C - 3 - 4\n" +
+                "M - 1 - 0\n" +
+                "M - 2 - 1\n" +
+                "T - 0 - 3 - 2\n" +
+                "T - 1 - 3 - 3\n"+
+                "A - Lara - 2 - 0 - S - 0";
+
+        TreasureQuest treasureQuest = TreasureQuestParser.getTreasureQuestFromString(input);
+        treasureQuest.runSimulation();
+
+        String output = treasureQuest.toString();
+        assertEquals(expectedOutput, output);
+    }
+
+
+    @Test
+    public void runSimulation_withOnlyPlayer_shouldRemainStuck(){
+        String input =
+                "C - 2 - 2\n" +
+                        "A - Luffy - 0 - 0 - W - ADAGGA\n"+
+                        "A - Nami - 1 - 0 - S - AADADAGGA\n"+
+                        "A - Zoro - 1 - 1 - S - AADADAGGA\n"+
+                        "A - Robin - 0 - 1 - S - AADADAGGA\n";
+
+        String expectedOutput =
+                "C - 2 - 2\n" +
+                "A - Luffy - 0 - 0 - S - 0\n"+
+                "A - Nami - 1 - 0 - N - 0\n"+
+                "A - Zoro - 1 - 1 - N - 0\n"+
+                "A - Robin - 0 - 1 - N - 0";
+
+        TreasureQuest treasureQuest = TreasureQuestParser.getTreasureQuestFromString(input);
+        treasureQuest.runSimulation();
+
+        String output = treasureQuest.toString();
+        assertEquals(expectedOutput, output);
     }
 
 

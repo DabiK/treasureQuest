@@ -5,7 +5,7 @@ public enum CellType {
     EMPTY(0, "empty", 'X'),
     MOUNTAIN(1, "mountain", 'M'),
     TREASURE(2, "treasure",'T'),
-    ADVENTURER(3, "adventurer", 'A');
+    ADVENTURER(3, "adventurer", 'A');// TODO: TO BE REMOVED
 
     private final int order;
     private final String type;

@@ -28,16 +28,21 @@ public class TreasureQuest {
         Set<String> positions = new HashSet<>();
         do{
             endGame = false;
+            positions = adventurers.stream()
+                    .map(Adventurer::getPositionAsString)
+                    .collect(Collectors.toSet());
             // make one round
             for (Adventurer adventurer : adventurers) {
+                positions.remove(adventurer.getPositionAsString());
                 boolean forecast = adventurer.forcastNextSequence(positions);
                 if (forecast) {
                     adventurer.runNextSequence();
+                }else{
+                    adventurer.skipSequence();
                 }
                 positions.add(adventurer.getPositionAsString());
                 endGame = endGame || !adventurer.hasNextSequence();
             }
-            positions.clear();
             positions.clear();
         }while (!endGame);
     }

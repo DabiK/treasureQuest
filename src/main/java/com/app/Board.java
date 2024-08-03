@@ -71,7 +71,7 @@ public class Board {
             throw new TreasureNotCollectible();
         }
         Treasure treasure = (Treasure) this.getValueAt(i,j);
-        grid[i][j].setValue(new Treasure(Math.max(0, treasure.amount() - 1)  ,i,j));
+        grid[i][j].setValue(treasure.amount() > 1 ? new Treasure(treasure.amount() - 1 ,i,j) : null);
     }
 
 

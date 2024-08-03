@@ -86,7 +86,7 @@ public class TreasureQuestParser {
                                 .stream(chunks[5].split(""))
                                 .map(AdventurerSequence::valueOf)
                                 .toArray(AdventurerSequence[]::new);
-                        adventurers.add(new Adventurer(name,adventuredI, adventuredJ, orientation, sequence));
+                        adventurers.add(new Adventurer(name,adventuredI, adventuredJ, orientation, sequence,0,board));
 
                     }else{
                         throw new InvalidIdentifierException(itemType);

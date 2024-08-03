@@ -166,9 +166,9 @@ class BoardTest {
         sb.append(String.format("C - %d - %d\n", width, height))
                 .append(String.format("M - %d - %d\n", 0, 0))
                 .append(String.format("M - %d - %d\n", 1, 1))
-                .append(String.format("M - %d - %d\n", 2, 1))
-                .append(String.format("T - %d - %d - %d\n", 2, 1, 3))
-                .append(String.format("T - %d - %d - %d\n", 5, 2, 2));
+                .append(String.format("M - %d - %d\n", 1, 2))
+                .append(String.format("T - %d - %d - %d\n", 3, 1, 2))
+                .append(String.format("T - %d - %d - %d\n", 2, 2, 5));
 
         String out = board.toString();
         assertEquals(sb.toString(), out);

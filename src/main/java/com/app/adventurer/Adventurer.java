@@ -1,13 +1,12 @@
 package main.java.com.app.adventurer;
 
 import main.java.com.app.Board;
+import main.java.com.app.exception.InvalidStartingPositionException;
 import main.java.com.app.exception.TreasureNotCollectible;
 
 import java.util.*;
 
 public class Adventurer {
-
-
     private String name;
     private int i;
     private int j;
@@ -16,6 +15,8 @@ public class Adventurer {
     private Board board;
     private AdventurerSequence[] sequence;
     private int currentIndex;
+    public static final String KEY = "A";
+
 
     private static final Map<Orientation, Orientation> turnLeftMapping = Map.of(
             Orientation.E, Orientation.N,
@@ -48,11 +49,11 @@ public class Adventurer {
         this.currentIndex = 0;
         if(board != null){
             if(!board.isValidCoords(i,j)){
-                throw new IllegalArgumentException("Initial position invalid");
+                throw new InvalidStartingPositionException("Initial position invalid");
             }
 
             if(!board.isStepable(i,j)){
-                throw new IllegalArgumentException("Inital position not stepable");
+                throw new InvalidStartingPositionException("Inital position not stepable");
             }
         }
         if(orientation == null){
@@ -106,10 +107,20 @@ public class Adventurer {
 
 
     public boolean forcastNextSequence(Set<String> blockedPositions) {
-        Integer[] nextPos = this.nextPosition();
-        int newI = nextPos[0];
-        int newJ = nextPos[1];
-        return this.hasNextSequence() && !blockedPositions.contains(String.format("%d-%d", newI,newJ)) && board.isStepable(newI, newJ);
+
+
+        if(this.hasNextSequence()){
+            if(getNextSequence() == AdventurerSequence.A){ // if it's a movement we check the next coord
+                Integer[] nextPos = this.nextPosition();
+                int newI = nextPos[0];
+                int newJ = nextPos[1];
+               return !blockedPositions.contains(String.format("%d-%d", newI,newJ))
+                        && board.isStepable(newI, newJ);
+            }
+            return true;
+        }
+
+        return true;
     }
 
     public void runSequence() {
@@ -122,6 +133,14 @@ public class Adventurer {
         }
         this.processCommand(sequence[currentIndex++]);
         return true;
+    }
+
+    public AdventurerSequence getNextSequence(){
+        return sequence[currentIndex];
+    }
+
+    public void skipSequence() {
+        currentIndex++;
     }
 
     public boolean hasNextSequence(){
@@ -171,7 +190,7 @@ public class Adventurer {
 
     @Override
     public String toString() {
-        return String.format("%s - %d - %d - %s - %d", name,j, i, orientation,treasure);
+        return String.format("%s - %s - %d - %d - %s - %d", Adventurer.KEY, name,j, i, orientation,treasure);
     }
 
     public String getPositionAsString(){
@@ -185,4 +204,5 @@ public class Adventurer {
     public void incTreasure() {
         treasure++;
     }
+
 }

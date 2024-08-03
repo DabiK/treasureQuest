@@ -7,7 +7,7 @@ public record Treasure(int amount, int i, int j) implements CellValue {
 
     @Override
     public String toString() {
-        return String.format("T - %d - %d - %d", amount, i, j);
+        return amount > 0 ? String.format("T - %d - %d - %d", j, i, amount): "";
     }
 
     @Override
