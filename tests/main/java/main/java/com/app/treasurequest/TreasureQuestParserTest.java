@@ -164,7 +164,8 @@ class TreasureQuestParserTest {
 
     @Test
     void getTreasureQuestFromString_withValidInput_shouldSucceed() {
-        String content = "C - 5 - 5\n" +
+        String content =
+                "C - 5 - 5\n" +
                 "M - 1 - 1\n" +
                 "T - 2 - 2 - 3\n" +
                 "A - Luffy - 0 - 0 - E - ADG\n";
