@@ -73,12 +73,24 @@ public class Adventurer {
     }
 
     public void moveForward() {
-        switch (orientation){
-            case E -> ++j;
-            case N -> i = Math.max(0, i - 1);
-            case S -> ++i;
-            case W -> j = Math.max(0, j - 1);
+        Integer[] nextPos = this.nextPosition();
+        if((board != null && board.isStepable(nextPos[0], nextPos[1])) || board == null){
+            this.i = nextPos[0];
+            this.j = nextPos[1];
         }
+    }
+
+    public Integer[] nextPosition(){
+        int newI = i;
+        int newJ = j;
+        switch (orientation){
+            case E -> newJ = board == null ? j + 1:  Math.min(board.getWidth(),j + 1);
+            case N -> newI = Math.max(0, i - 1);
+            case S -> newI = board == null ? i + 1 : Math.min(board.getHeight(),i + 1);
+            case W -> newJ = Math.max(0, j - 1);
+        }
+
+        return new Integer[]{newI, newJ};
     }
 
     public void runSequence() {

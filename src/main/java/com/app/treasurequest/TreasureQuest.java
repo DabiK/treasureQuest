@@ -20,6 +20,16 @@ public class TreasureQuest {
         this.validateAdventurerPositions();
     }
 
+
+    public void runSimulation(){
+
+        
+
+
+
+    }
+
+
     private void validateAdventurerPositions() {
         Set<String> positions = new HashSet<>();
 

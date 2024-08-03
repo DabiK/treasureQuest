@@ -9,7 +9,6 @@ import main.java.com.app.adventurer.AdventurerSequence;
 import main.java.com.app.adventurer.Orientation;
 import main.java.com.app.exception.BoardParserNegativeDimensionException;
 import main.java.com.app.exception.InvalidStartingPositionException;
-import main.java.com.app.treasurequest.TreasureQuestParser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
