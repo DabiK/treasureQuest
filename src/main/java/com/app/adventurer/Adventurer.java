@@ -1,5 +1,6 @@
 package main.java.com.app.adventurer;
 
+import java.util.Arrays;
 import java.util.Map;
 
 public class Adventurer {
@@ -54,6 +55,26 @@ public class Adventurer {
             case N -> i = Math.max(0, i - 1);
             case S -> ++i;
             case W -> j = Math.max(0, j - 1);
+        }
+    }
+
+    public void runSequence() {
+        Arrays.stream(sequence).forEach(this::processCommand);
+    }
+
+    private void processCommand(AdventurerSequence adventurerSequence) {
+        switch (adventurerSequence) {
+            case A:
+                moveForward();
+                break;
+            case G:
+                turnLeft();
+                break;
+            case D:
+                turnRight();
+                break;
+            default:
+                throw new IllegalArgumentException("Unknown command: " + adventurerSequence);
         }
     }
 
