@@ -30,17 +30,7 @@ public class Adventurer {
     );
 
     public Adventurer(String name, int i, int j, Orientation orientation, AdventurerSequence[] sequence) {
-        this.name = name;
-        this.i = i;
-        this.j = j;
-        if(orientation == null){
-            throw new IllegalArgumentException("Orientation should not be null");
-        }
-        if(sequence == null){
-            throw new IllegalArgumentException("Orientation should not be null");
-        }
-        this.orientation = orientation;
-        this.sequence = sequence;
+        this(name,i,j, orientation, sequence, 0);
     }
 
     protected Adventurer(String name, int i, int j, Orientation orientation, AdventurerSequence[] sequence, int treasure) {
@@ -53,6 +43,16 @@ public class Adventurer {
         this.j = j;
         this.treasure = treasure;
         this.board = board;
+
+        if(board != null){
+            if(!board.isValidCoords(i,j)){
+                throw new IllegalArgumentException("Initial position invalid");
+            }
+
+            if(!board.isStepable(i,j)){
+                throw new IllegalArgumentException("Inital position not stepable");
+            }
+        }
         if(orientation == null){
             throw new IllegalArgumentException("Orientation should not be null");
         }

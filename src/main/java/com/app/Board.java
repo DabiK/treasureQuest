@@ -73,6 +73,15 @@ public class Board {
         return i >= 0 && i < this.height && j >=0 && j < this.width;
     }
 
+
+
+    public boolean isStepable(int i, int j) {
+        if(!this.isValidCoords(i,j)){
+            return false;
+        }
+        return this.grid[i][j].isStepable();
+    }
+
     public boolean isEmpty(int i , int j ){
         return this.grid[i][j].getValue() == null;
     }
@@ -103,5 +112,4 @@ public class Board {
             throw new IndexOutOfBoundsException();
         }
     }
-
 }

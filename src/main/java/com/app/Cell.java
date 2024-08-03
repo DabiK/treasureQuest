@@ -11,17 +11,24 @@ public class Cell implements Comparable<Cell>{
         return value;
     }
 
-    @Override
-    public String toString() {
-        return value == null ? "" : value.toString();
-    }
 
     public int getOrder(){
         return value == null ? CellType.EMPTY.getOrder() : value.getOrder();
+    }
+
+    public boolean isStepable(){
+        return value == null ? true : value.isStepable();
     }
 
     @Override
     public int compareTo(Cell other) {
         return Integer.compare(this.getOrder(), other.getOrder());
     }
+
+
+    @Override
+    public String toString() {
+        return value == null ? "" : value.toString();
+    }
+
 }

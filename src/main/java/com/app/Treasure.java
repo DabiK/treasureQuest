@@ -27,4 +27,10 @@ public record Treasure(int amount, int i, int j) implements CellValue {
     public int hashCode() {
         return Objects.hash(amount, i, j);
     }
+
+    @Override
+    public boolean isStepable() {
+        return true;
+    }
+
 }

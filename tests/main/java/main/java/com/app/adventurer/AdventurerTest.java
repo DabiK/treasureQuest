@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 class AdventurerTest {
@@ -130,12 +131,56 @@ class AdventurerTest {
 
     @Test
     public void createAdventurer_withBoardAndPositionOutOfBoundCoords_shouldFail(){
-        fail();
+        String name = "Luffy";
+        int i = 11;
+        int j = 11;
+        Orientation orientation = Orientation.E;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, };
+        Board board = new Board(10,10);
+        board
+                .withMountain(2,2)
+                .withMountain(1,1)
+                .withMountain(3,3)
+                .withTreasure(3,1, 1);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()  -> new Adventurer(name, i, j, orientation, sequence, 0, board));
+
+        assertNotNull(exception);
+        assertEquals("Initial position invalid", exception.getMessage());
+    }
+
+    @Test
+    public void createAdventurer_withBoardButAlreadyOccupiedByStepableEntity_shouldSucced(){
+        String name = "Luffy";
+        int i = 0;
+        int j = 0;
+        Orientation orientation = Orientation.E;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, };
+        Board board = new Board(10,10);
+        board
+                .withMountain(2,2)
+                .withMountain(1,1)
+                .withMountain(1,1)
+                .withTreasure(3,i, j); // treasure is steapable
+        assertDoesNotThrow(()  -> new Adventurer(name, i, j, orientation, sequence, 0, board));
     }
 
     @Test
     public void createAdventurer_withBoardButAlreadyOccupiedCoords_shouldFail(){
-        fail();
+        String name = "Luffy";
+        int i = 0;
+        int j = 0;
+        Orientation orientation = Orientation.E;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, };
+        Board board = new Board(10,10);
+        board
+                .withMountain(2,2)
+                .withMountain(1,1)
+                .withMountain(i,j)
+                .withTreasure(3,1, 1);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, ()  -> new Adventurer(name, i, j, orientation, sequence, 0, board));
+
+        assertNotNull(exception);
+        assertEquals("Inital position not stepable", exception.getMessage());
     }
 
 
