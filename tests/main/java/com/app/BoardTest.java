@@ -1,10 +1,15 @@
 package main.java.com.app;
 
+import main.java.com.app.adventurer.Adventurer;
+import main.java.com.app.adventurer.AdventurerSequence;
+import main.java.com.app.adventurer.Orientation;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
+
 
 class BoardTest {
 
@@ -142,6 +147,104 @@ class BoardTest {
         assertNull(cellValue);
     }
 
+
+    @Test
+    public void createAdventurer_withCorrectValues_shouldSucceed(){
+        int width = 5;
+        int height = 5;
+        int j = 0;
+        int i = 0;
+
+        String name = "Luffy";
+        int adventurerI = 0;
+        int adventurerJ = 0;
+        Orientation orientation = Orientation.E;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A};
+
+
+        Board board = new Board(width, height);
+        board.createMountain(1,1);
+        board.createMountain(2,1);
+        board.createAdventurer(i,j, new Adventurer(name , adventurerI,adventurerJ, orientation, sequence));
+
+        CellValue cellValue = board.getValueAt(i, j);
+        assertInstanceOf(Adventurer.class,cellValue);
+
+        Adventurer adventurer = (Adventurer) cellValue;
+        assertNotNull(adventurer);
+        assertEquals(name, adventurer.getName());
+        assertEquals(i, adventurer.getI());
+        assertEquals(j, adventurer.getJ());
+        assertEquals(orientation, adventurer.getOrientation());
+        assertArrayEquals(sequence, adventurer.getSequence());
+    }
+
+    @Test
+    public void createAdventurer_withOutOfBoundCoords_shouldFail(){
+        int width = 5;
+        int height = 5;
+        int j = 0;
+        int i = 0;
+
+        String name = "Luffy";
+        int adventurerI = 6;
+        int adventurerJ = 6;
+        Orientation orientation = Orientation.E;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A};
+
+
+        Board board = new Board(width, height);
+        board.createMountain(1,1);
+        board.createMountain(2,1);
+        IndexOutOfBoundsException exception = assertThrows(IndexOutOfBoundsException.class , () -> board.createAdventurer(adventurerI,adventurerJ, new Adventurer(name , adventurerI,adventurerJ, orientation, sequence)));
+        assertNotNull(exception);
+    }
+
+    @Test
+    public void createAdventurer_withNotEmptyCoords_shouldFail(){
+        int width = 5;
+        int height = 5;
+        int j = 0;
+        int i = 0;
+
+        String name = "Luffy";
+        int adventurerI = 1;
+        int adventurerJ = 1;
+        Orientation orientation = Orientation.E;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A};
+
+
+        Board board = new Board(width, height);
+        board.createMountain(1,1);
+        board.createMountain(2,1);
+        board.createMountain(adventurerI,adventurerJ);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class , () -> board.createAdventurer(adventurerI,adventurerJ, new Adventurer(name , adventurerI,adventurerJ, orientation, sequence)));
+        assertNotNull(exception);
+        assertEquals("Coords 1 1 is not empty", exception.getMessage());
+    }
+
+    @Test
+    public void createAdventurer_withNotInSyncCoords_shouldFail(){
+        int width = 5;
+        int height = 5;
+        int j = 0;
+        int i = 0;
+
+        String name = "Luffy";
+        int adventurerI = 1;
+        int adventurerJ = 1;
+        Orientation orientation = Orientation.E;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A};
+
+
+        Board board = new Board(width, height);
+        board.createMountain(1,1);
+        board.createMountain(2,1);
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class , () -> board.createAdventurer(adventurerI,adventurerJ, new Adventurer(name , 0,0, orientation, sequence)));
+        assertNotNull(exception);
+        assertEquals("Invalid adventurer position", exception.getMessage());
+    }
+
     @Test
     public void toString_withCorrectMountainsAndTreasures_shouldSucceed() {
         int width = 5;
@@ -164,9 +267,8 @@ class BoardTest {
                 .append(String.format("T - %d - %d - %d\n", 2, 1, 3))
                 .append(String.format("T - %d - %d - %d\n", 5, 2, 2));
 
-
         String out = board.toString();
         assertEquals(sb.toString(), out);
     }
-
+    
 }

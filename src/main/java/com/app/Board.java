@@ -1,5 +1,7 @@
 package main.java.com.app;
 
+import main.java.com.app.adventurer.Adventurer;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -50,6 +52,23 @@ public class Board {
         this.grid[treasureI][treasureJ].setValue(new Treasure(amount, treasureI, treasureJ));
     }
 
+
+    public void createAdventurer(int i, int j, Adventurer adventurer) {
+        this.checkCoords(i, j);
+        this.checkCoords(adventurer.getI(), adventurer.getJ());
+        if(i != adventurer.getI() || j != adventurer.getJ()){
+            throw new IllegalArgumentException("Invalid adventurer position");
+        }
+        if(!this.isEmpty(i,j)){
+            throw new IllegalArgumentException("Coords " + i + " " + j + " is not empty");
+        }
+        this.grid[i][j].setValue(adventurer);
+    }
+
+    public boolean isEmpty(int i , int j ){
+        return this.grid[i][j].getValue() == null;
+    }
+
     public CellValue getValueAt(int i, int j) {
         Cell cell = this.isValidCoords(i, j) ? this.grid[i][j] : null;
         return cell == null ? null : cell.getValue();
@@ -85,4 +104,5 @@ public class Board {
             throw new IndexOutOfBoundsException();
         }
     }
+
 }

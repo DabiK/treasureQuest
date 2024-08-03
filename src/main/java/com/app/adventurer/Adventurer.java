@@ -1,9 +1,12 @@
 package main.java.com.app.adventurer;
 
+import main.java.com.app.CellType;
+import main.java.com.app.CellValue;
+
 import java.util.Arrays;
 import java.util.Map;
 
-public class Adventurer {
+public class Adventurer implements CellValue {
 
     private String name;
     private int i;
@@ -117,5 +120,10 @@ public class Adventurer {
     @Override
     public String toString() {
         return String.format("%s - %d - %d - %s - %d", name,j, i, orientation,treasure);
+    }
+
+    @Override
+    public int getOrder() {
+        return CellType.ADVENTURER.getOrder();
     }
 }
