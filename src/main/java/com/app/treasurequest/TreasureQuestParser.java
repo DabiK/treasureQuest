@@ -1,5 +1,10 @@
-package main.java.com.app;
+package main.java.com.app.treasurequest;
 
+import main.java.com.app.Board;
+import main.java.com.app.CellType;
+import main.java.com.app.adventurer.Adventurer;
+import main.java.com.app.adventurer.AdventurerSequence;
+import main.java.com.app.adventurer.Orientation;
 import main.java.com.app.exception.BoardParserNegativeDimensionException;
 import main.java.com.app.exception.InvalidArgumentLength;
 import main.java.com.app.exception.InvalidIdentifierException;
@@ -8,10 +13,12 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class BoardParser {
+public class TreasureQuestParser {
 
     public static final String DIMENSION_KEY = "C";
 
@@ -25,12 +32,13 @@ public class BoardParser {
         return getBoardFromString(content);
     }
 
+    @Deprecated()
     public static Board getBoardFromString(String content){
         String[] lines = content.split("\n");
         // process first line
         String dimensionLine = lines[0];
         String[] parts = dimensionLine.split(" - ");
-        if(!parts[0].equals(BoardParser.DIMENSION_KEY)){
+        if(!parts[0].equals(TreasureQuestParser.DIMENSION_KEY)){
             throw new InvalidIdentifierException(parts[0].charAt(0));
         }
         int width = Integer.parseInt(parts[1]);
@@ -64,6 +72,11 @@ public class BoardParser {
                     lineIndex.incrementAndGet();
         });
         return board;
+    }
+
+
+    public static TreasureQuest getTreasureQuestFromString(String content){
+        return null;
     }
 
     private static void checkChunksLength(String[] chunks, int expectedLength, int line) {

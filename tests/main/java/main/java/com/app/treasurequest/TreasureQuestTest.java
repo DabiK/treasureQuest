@@ -81,7 +81,6 @@ class TreasureQuestTest {
 
         assertNotNull(treasureQuest);
         assertEquals(sb.toString(), out);
-
     }
 
 

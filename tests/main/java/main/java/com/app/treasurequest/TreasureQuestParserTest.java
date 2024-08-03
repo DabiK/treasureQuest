@@ -1,6 +1,14 @@
-package main.java.com.app;
+package main.java.com.app.treasurequest;
 
+import main.java.com.app.Board;
+import main.java.com.app.CellValue;
+import main.java.com.app.Mountain;
+import main.java.com.app.Treasure;
+import main.java.com.app.adventurer.Adventurer;
+import main.java.com.app.adventurer.AdventurerSequence;
+import main.java.com.app.adventurer.Orientation;
 import main.java.com.app.exception.BoardParserNegativeDimensionException;
+import main.java.com.app.treasurequest.TreasureQuestParser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -9,10 +17,11 @@ import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class BoardParserTest {
+class TreasureQuestParserTest {
 
     @Test
     public void getBoardFromString_withNegativeDimension_shouldFail() {
@@ -23,7 +32,7 @@ class BoardParserTest {
         sb.append(String.format("C - %d - %d\n", width, height));
 
         String content = sb.toString();
-        BoardParserNegativeDimensionException exception = assertThrows(BoardParserNegativeDimensionException.class,() -> BoardParser.getBoardFromString(content));
+        BoardParserNegativeDimensionException exception = assertThrows(BoardParserNegativeDimensionException.class,() -> TreasureQuestParser.getBoardFromString(content));
 
         assertNotNull(exception);
     }
@@ -39,7 +48,7 @@ class BoardParserTest {
                 .append(createMountainInputString(mountainsInput));
 
         String content = sb.toString();
-        Board board = BoardParser.getBoardFromString(content);
+        Board board = TreasureQuestParser.getBoardFromString(content);
 
         CellValue[] mountains = {
                 board.getValueAt(mountainsInput[0].i(),mountainsInput[0].j()),
@@ -68,7 +77,7 @@ class BoardParserTest {
         sb.append(createTreasureInputString(treasuresInput));
 
         String content = sb.toString();
-        Board board = BoardParser.getBoardFromString(content);
+        Board board = TreasureQuestParser.getBoardFromString(content);
 
         CellValue[] treasures = {board.getValueAt(treasuresInput[0].i(), treasuresInput[0].j()), board.getValueAt(treasuresInput[1].i(), treasuresInput[1].j())};
 
@@ -96,7 +105,7 @@ class BoardParserTest {
         sb.append(createTreasureInputString(treasuresInput));
 
         String content = sb.toString();
-        Board board = BoardParser.getBoardFromString(content);
+        Board board = TreasureQuestParser.getBoardFromString(content);
 
         CellValue[] treasures = {board.getValueAt(treasuresInput[0].i(), treasuresInput[0].j()), board.getValueAt(treasuresInput[1].i(), treasuresInput[1].j())};
         CellValue[] mountains = {
@@ -130,7 +139,7 @@ class BoardParserTest {
             "'C - 5 - 5\nM - 0 - 0\nM - 1 - 1\nM - 2 - 1\nT - 2 - 1\nT - 5 - 2 - 2', 'Invalid argument at line 5, expected length is 4'",
     })
     public void getBoardFromString_withInvalidRegexPattern_shouldFail(String input, String cause) {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->  BoardParser.getBoardFromString(input));
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->  TreasureQuestParser.getBoardFromString(input));
         assertNotNull(exception);
         assertEquals(cause,exception.getMessage());
     }
@@ -138,7 +147,7 @@ class BoardParserTest {
     @Test
     public void getBoardFromFile_withFileNotFound_shouldRaiseAnException() {
         String filepath = "not-found.txt";
-        RuntimeException exception =  assertThrows(RuntimeException.class, () -> BoardParser.getBoardFromFile(filepath));
+        RuntimeException exception =  assertThrows(RuntimeException.class, () -> TreasureQuestParser.getBoardFromFile(filepath));
         assertNotNull(exception);
         assertEquals("File not found: "+filepath, exception.getMessage());
     }
@@ -147,11 +156,46 @@ class BoardParserTest {
     public void getBoardFromFile_withEmptyFile_shouldReturnEmptyBoardWithCorrectDimension() throws URISyntaxException {
         String filepath = "getBoardFromFile_withEmptyFile_shouldReturnEmptyBoardWithCorrectDimension.txt";
         Path path = Paths.get(getClass().getClassLoader().getResource(filepath).toURI());
-        Board board = BoardParser.getBoardFromFile(path.toAbsolutePath().toString());
+        Board board = TreasureQuestParser.getBoardFromFile(path.toAbsolutePath().toString());
         assertEquals(board.getWidth(),3);
         assertEquals(board.getHeight(),4);
 
     }
+
+    @Test
+    void getTreasureQuestFromString_withValidInput_shouldSucceed() {
+        String content = "C - 5 - 5\n" +
+                "M - 1 - 1\n" +
+                "T - 2 - 2 - 3\n" +
+                "A - Luffy - 0 - 0 - E - ADG\n";
+
+        TreasureQuest treasureQuest = TreasureQuestParser.getTreasureQuestFromString(content);
+
+        // Validate board dimensions
+        Board board = treasureQuest.getBoard();
+        assertEquals(5, board.getWidth());
+        assertEquals(5, board.getHeight());
+
+        // Validate mountains
+        assertFalse(board.isStepable(1, 1));
+
+        // Validate treasures
+        CellValue cellValue = board.getValueAt(2, 2);
+        assertInstanceOf(Treasure.class, cellValue);
+        assertEquals(3, ((Treasure) cellValue).amount());
+
+        // Validate adventurers
+        List<Adventurer> adventurers = treasureQuest.getAdventurers();
+        assertEquals(1, adventurers.size());
+        Adventurer adventurer = adventurers.get(0);
+        assertEquals("Luffy", adventurer.getName());
+        assertEquals(0, adventurer.getI());
+        assertEquals(0, adventurer.getJ());
+        assertEquals(Orientation.E, adventurer.getOrientation());
+        assertArrayEquals(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.D, AdventurerSequence.G}, adventurer.getSequence());
+    }
+
+
 
 
     private String createMountainInputString(Mountain[] mountains) {
@@ -165,6 +209,8 @@ class BoardParserTest {
                 .map(t -> String.format("T - %d - %d - %d\n", t.j(), t.i(), t.amount()))
                 .reduce("", String::concat);
     }
+
+
 
 
 
