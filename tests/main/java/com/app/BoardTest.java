@@ -270,5 +270,41 @@ class BoardTest {
         String out = board.toString();
         assertEquals(sb.toString(), out);
     }
-    
+
+    @Test
+    public void toString_withCorrectMountainsTreasuresAndAdventurer_shouldSucceed() {
+        int width = 5;
+        int height = 5;
+
+        Board board = new Board(width, height);
+        board.createMountain(0,0);
+        board.createMountain(1,1);
+        board.createMountain(2,1);
+        board.createMountain(0,0);
+        board.createTreasures(2, 1, 3);
+        board.createTreasures(5, 2, 2);
+
+        String name = "Luffy";
+        int adventurerI = 4;
+        int adventurerJ = 4;
+        Orientation orientation = Orientation.E;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A};
+
+        board.createAdventurer(adventurerI,adventurerJ, new Adventurer(name , adventurerI,adventurerJ, orientation, sequence));
+
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append(String.format("C - %d - %d\n", width, height))
+                .append(String.format("M - %d - %d\n", 0, 0))
+                .append(String.format("M - %d - %d\n", 1, 1))
+                .append(String.format("M - %d - %d\n", 2, 1))
+                .append(String.format("T - %d - %d - %d\n", 2, 1, 3))
+                .append(String.format("T - %d - %d - %d\n", 5, 2, 2))
+                .append(String.format("Luffy - 4 - 4 - E - 0"));
+
+        String out = board.toString();
+        assertEquals(sb.toString(), out);
+    }
+
 }
