@@ -8,7 +8,19 @@ class AdventurerTest {
 
     @Test
     public void instanciate_withCorrectParameter_shouldSucceed() {
-        fail();
+        String name = "Luffy";
+        int i = 0;
+        int j = 0;
+        Orientation orientation = Orientation.E;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, };
+        Adventurer adventurer = new Adventurer(name, i, j, orientation, sequence);
+
+        assertNotNull(adventurer);
+        assertEquals(name, adventurer.getName());
+        assertEquals(i, adventurer.getI());
+        assertEquals(j, adventurer.getJ());
+        assertEquals(orientation, adventurer.getOrientation());
+        assertArrayEquals(sequence, adventurer.getSequence());
     }
 
     @Test
