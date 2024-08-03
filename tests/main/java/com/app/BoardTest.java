@@ -18,6 +18,14 @@ class BoardTest {
     }
 
     @Test
+    public void creation_withNegativeDimension_shouldFail() {
+        int width = -5;
+        int height = -5;
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> new Board(width, height));
+        assertEquals("Width and height should be positive values", exception.getMessage());
+    }
+
+    @Test
     public void creation_withSizeGreatherThan85182_shouldFail() {
         int width = 25000;
         int height = 25000;
@@ -160,7 +168,5 @@ class BoardTest {
         String out = board.toString();
         assertEquals(sb.toString(), out);
     }
-
-    //TODO add test for width height with negative values
 
 }

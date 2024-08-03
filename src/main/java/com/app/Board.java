@@ -19,6 +19,9 @@ public class Board {
         if(width * height > Board.MAX_AREA){
             throw new IllegalArgumentException(String.format("Area is too big max is {0}", Board.MAX_AREA));
         }
+        if(width < 0 || height < 0){
+            throw new IllegalArgumentException("Width and height should be positive values");
+        }
         this.width = width;
         this.height = height;
         this.grid = IntStream.range(0, this.height)
