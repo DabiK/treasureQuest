@@ -40,8 +40,8 @@ class BoardParserTest {
        CellValue value3 = board.getValueAt(2,1);
 
        assertNotNull(value1);
-       assertNotNull(value1);
-       assertNotNull(value1);
+       assertNotNull(value2);
+       assertNotNull(value3);
 
        assertTrue(value1 instanceof Mountain);
        assertTrue(value2 instanceof Mountain);
@@ -51,7 +51,28 @@ class BoardParserTest {
 
     @Test
     public void getBoardFromString_fromCorrectFileWithOnlyThreasure_shouldSucceed() {
-        fail();
+        int width = 10;
+        int height = 10;
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(String.format("C - %d - %d\n", width, height))
+                .append(String.format("T - %d - %d - %d\n", 2, 1, 3))
+                .append(String.format("T - %d - %d - %d\n", 5, 2, 2));
+
+        String content = sb.toString();
+        Board board = BoardParser.getBoardFromString(content);
+
+        CellValue value1 = board.getValueAt(2, 1);
+        CellValue value2 = board.getValueAt(5, 2);
+
+        assertNotNull(value1);
+        assertNotNull(value2);
+
+        assertTrue(value1 instanceof Treasure);
+        assertTrue(value2 instanceof Treasure);
+
+        assertEquals(((Treasure) value1).amount(), 3);
+        assertEquals(((Treasure) value2).amount(), 2);
     }
 
     @Test
