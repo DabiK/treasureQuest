@@ -53,21 +53,6 @@ public class Board {
     }
 
 
-    public void createAdventurer(int i, int j, Adventurer adventurer) {
-        this.checkCoords(i, j);
-        this.checkCoords(adventurer.getI(), adventurer.getJ());
-        if(i != adventurer.getI() || j != adventurer.getJ()){
-            throw new IllegalArgumentException("Invalid adventurer position");
-        }
-        if(!this.isEmpty(i,j)){
-            throw new IllegalArgumentException("Coords " + i + " " + j + " is not empty");
-        }
-        this.grid[i][j].setValue(adventurer);
-    }
-
-    public boolean isEmpty(int i , int j ){
-        return this.grid[i][j].getValue() == null;
-    }
 
     public CellValue getValueAt(int i, int j) {
         Cell cell = this.isValidCoords(i, j) ? this.grid[i][j] : null;
@@ -76,6 +61,10 @@ public class Board {
 
     public boolean isValidCoords(int i, int j){
         return i >= 0 && i < this.height && j >=0 && j < this.width;
+    }
+
+    public boolean isEmpty(int i , int j ){
+        return this.grid[i][j].getValue() == null;
     }
 
     @Override

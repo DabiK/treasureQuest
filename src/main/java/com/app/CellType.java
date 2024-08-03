@@ -4,8 +4,7 @@ public enum CellType {
 
     EMPTY(0, "empty", 'X'),
     MOUNTAIN(1, "mountain", 'M'),
-    TREASURE(2, "treasure",'T'),
-    ADVENTURER(3, "adventurer", 'A');
+    TREASURE(2, "treasure",'T');
 
     private final int order;
     private final String type;

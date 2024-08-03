@@ -6,7 +6,7 @@ import main.java.com.app.CellValue;
 import java.util.Arrays;
 import java.util.Map;
 
-public class Adventurer implements CellValue {
+public class Adventurer {
 
     private String name;
     private int i;
@@ -120,10 +120,5 @@ public class Adventurer implements CellValue {
     @Override
     public String toString() {
         return String.format("%s - %d - %d - %s - %d", name,j, i, orientation,treasure);
-    }
-
-    @Override
-    public int getOrder() {
-        return CellType.ADVENTURER.getOrder();
     }
 }
