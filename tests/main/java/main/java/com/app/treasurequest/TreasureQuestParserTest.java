@@ -8,6 +8,7 @@ import main.java.com.app.adventurer.Adventurer;
 import main.java.com.app.adventurer.AdventurerSequence;
 import main.java.com.app.adventurer.Orientation;
 import main.java.com.app.exception.BoardParserNegativeDimensionException;
+import main.java.com.app.exception.InvalidStartingPositionException;
 import main.java.com.app.treasurequest.TreasureQuestParser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -197,6 +198,27 @@ class TreasureQuestParserTest {
     }
 
 
+    @Test
+    void getTreasureQuestFromString_withOverlappingAdventurers_shouldThrowException() {
+        String content = "C - 5 - 5\n" +
+                "A - Luffy - 0 - 0 - E - ADG\n" +
+                "A - Zoro - 0 - 0 - N - AAD\n";
+
+        assertThrows(InvalidStartingPositionException.class, () -> {
+            TreasureQuestParser.getTreasureQuestFromString(content);
+        });
+    }
+
+    @Test
+    void getTreasureQuestFromString_withAdventurerOnNonStepableCell_shouldThrowException() {
+        String content = "C - 5 - 5\n" +
+                "M - 1 - 1\n" +
+                "A - Luffy - 1 - 1 - E - ADG\n";
+
+        assertThrows(InvalidStartingPositionException.class, () -> {
+            TreasureQuestParser.getTreasureQuestFromString(content);
+        });
+    }
 
 
     private String createMountainInputString(Mountain[] mountains) {
