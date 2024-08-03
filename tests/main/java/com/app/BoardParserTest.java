@@ -2,6 +2,8 @@ package main.java.com.app;
 
 import main.java.com.app.exception.BoardParserNegativeDimensionException;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvSource;
 
 import java.util.Arrays;
 
@@ -116,9 +118,17 @@ class BoardParserTest {
     }
 
 
-    @Test
-    public void getBoardFromString_withInvalidRegexPattern_shouldFail() {
-        fail();
+    @ParameterizedTest
+    @CsvSource({
+            "'C - 5 - 5\nX - 0 - 0\nM - 1 - 1\nM - 2 - 1\nT - 2 - 1 - 3\nT - 5 - 2 - 2', 'Invalid identifier: X'",
+            "'W - 5 - 5\nM - 0 - 0\nM - 1 - 1\nM - 2 - 1\nT - 2 - 1 - 3\nT - 5 - 2 - 2', 'Invalid identifier: W'",
+            "'C - 5 - 5\nM - 0 - 0\nM - 1 - 1\nM - 2 - 1\nT - 2 - 1 - 3\nZ - 5 - 2 - 2', 'Invalid identifier: Z'",
+            "'C - 5 - 5\nM - 0\nM - 1 - 1\nM - 2 - 1\nT - 2 - 1 - 3\nT - 5 - 2 - 2', 'Invalid argument at line 2, expected length is 3'",
+            "'C - 5 - 5\nM - 0 - 0\nM - 1 - 1\nM - 2 - 1\nT - 2 - 1\nT - 5 - 2 - 2', 'Invalid argument at line 5, expected length is 4'",
+    })
+    public void getBoardFromString_withInvalidRegexPattern_shouldFail(String input, String cause) {
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->  BoardParser.getBoardFromString(input));
+        assertEquals(cause,exception.getMessage());
     }
 
     @Test
