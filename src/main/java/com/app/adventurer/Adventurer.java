@@ -1,7 +1,6 @@
 package main.java.com.app.adventurer;
 
-import main.java.com.app.CellType;
-import main.java.com.app.CellValue;
+import main.java.com.app.Board;
 
 import java.util.Arrays;
 import java.util.Map;
@@ -13,6 +12,7 @@ public class Adventurer {
     private int j;
     private int treasure;
     private Orientation orientation;
+    private Board board;
     private AdventurerSequence[] sequence;
 
     private static final Map<Orientation, Orientation> turnLeftMapping = Map.of(
@@ -44,10 +44,15 @@ public class Adventurer {
     }
 
     protected Adventurer(String name, int i, int j, Orientation orientation, AdventurerSequence[] sequence, int treasure) {
+        this(name,i,j,orientation, sequence, treasure,null);
+    }
+
+    public Adventurer(String name, int i, int j, Orientation orientation, AdventurerSequence[] sequence, int treasure, Board board) {
         this.name = name;
         this.i = i;
         this.j = j;
         this.treasure = treasure;
+        this.board = board;
         if(orientation == null){
             throw new IllegalArgumentException("Orientation should not be null");
         }
@@ -120,5 +125,9 @@ public class Adventurer {
     @Override
     public String toString() {
         return String.format("%s - %d - %d - %s - %d", name,j, i, orientation,treasure);
+    }
+
+    public Board getBoard() {
+        return board;
     }
 }

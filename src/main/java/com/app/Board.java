@@ -52,6 +52,16 @@ public class Board {
         this.grid[treasureI][treasureJ].setValue(new Treasure(amount, treasureI, treasureJ));
     }
 
+    public Board withMountain(int mountainI, int mountainJ){
+        this.createMountain(mountainI, mountainJ);
+        return this;
+    }
+
+    public Board withTreasure(int amount, int treasureI, int treasureJ){
+        this.createTreasures(amount, treasureI, treasureJ);
+        return this;
+    }
+
 
 
     public CellValue getValueAt(int i, int j) {

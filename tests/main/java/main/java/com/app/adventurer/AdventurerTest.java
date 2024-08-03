@@ -1,7 +1,6 @@
 package main.java.com.app.adventurer;
 
 import main.java.com.app.Board;
-import main.java.com.app.CellValue;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -111,29 +110,22 @@ class AdventurerTest {
         assertEquals(expectedOut,out);
     }
 
-
-    // Provide the sequences as method source
-    private static Stream<SequenceTestsData> provideSequences() {
-        return Stream.of(
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A,AdventurerSequence.A,AdventurerSequence.A}, 0, 0, Orientation.E, 0, 6),
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A,AdventurerSequence.A,AdventurerSequence.A}, 0, 0, Orientation.S, 6, 0),
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.D, AdventurerSequence.G, AdventurerSequence.A, AdventurerSequence.G,AdventurerSequence.G,AdventurerSequence.A}, 0, 0, Orientation.N, 1, 0),
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.D}, 2, 3, Orientation.E, 2, 4),
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.D, AdventurerSequence.A, AdventurerSequence.G, AdventurerSequence.G}, 1, 1, Orientation.S, 1, 0),
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A}, 4, 4, Orientation.W, 4, 3),
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.G, AdventurerSequence.D, AdventurerSequence.D, AdventurerSequence.G, AdventurerSequence.A}, 0, 5, Orientation.N, 0, 5),
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.G}, 2, 2, Orientation.S, 3, 2),
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.D, AdventurerSequence.D, AdventurerSequence.D, AdventurerSequence.A, AdventurerSequence.A}, 3, 3, Orientation.E, 1, 3),
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.G}, 4, 4, Orientation.N, 3, 4),
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.G, AdventurerSequence.A, AdventurerSequence.G, AdventurerSequence.G, AdventurerSequence.D}, 5, 5, Orientation.W, 6, 5),
-                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.G, AdventurerSequence.D}, 6, 6, Orientation.S, 8, 6)
-        );
-    }
-
-
     @Test
     public void createAdventurer_withBoard_shouldSucceed(){
-        fail();
+        String name = "Luffy";
+        int i = 0;
+        int j = 0;
+        Orientation orientation = Orientation.E;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, };
+        Board board = new Board(10,10);
+        board
+                .withMountain(2,2)
+                .withMountain(1,1)
+                .withMountain(3,3)
+                .withTreasure(3,1, 1);
+        Adventurer adventurer = new Adventurer(name, i, j, orientation, sequence, 0, board);
+
+        assertEquals(adventurer.getBoard(), board); // same reference
     }
 
     @Test
@@ -154,6 +146,25 @@ class AdventurerTest {
 
 
     private record SequenceTestsData(AdventurerSequence[] sequence, int startI, int startJ, Orientation startOrientation, int expectedI, int expectedJ) {};
+
+
+    // Provide the sequences as method source
+    private static Stream<SequenceTestsData> provideSequences() {
+        return Stream.of(
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A,AdventurerSequence.A,AdventurerSequence.A}, 0, 0, Orientation.E, 0, 6),
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.A,AdventurerSequence.A,AdventurerSequence.A}, 0, 0, Orientation.S, 6, 0),
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.D, AdventurerSequence.G, AdventurerSequence.A, AdventurerSequence.G,AdventurerSequence.G,AdventurerSequence.A}, 0, 0, Orientation.N, 1, 0),
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.D}, 2, 3, Orientation.E, 2, 4),
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.D, AdventurerSequence.A, AdventurerSequence.G, AdventurerSequence.G}, 1, 1, Orientation.S, 1, 0),
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A}, 4, 4, Orientation.W, 4, 3),
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.G, AdventurerSequence.D, AdventurerSequence.D, AdventurerSequence.G, AdventurerSequence.A}, 0, 5, Orientation.N, 0, 5),
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.G}, 2, 2, Orientation.S, 3, 2),
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.D, AdventurerSequence.D, AdventurerSequence.D, AdventurerSequence.A, AdventurerSequence.A}, 3, 3, Orientation.E, 1, 3),
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.G}, 4, 4, Orientation.N, 3, 4),
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.G, AdventurerSequence.A, AdventurerSequence.G, AdventurerSequence.G, AdventurerSequence.D}, 5, 5, Orientation.W, 6, 5),
+                new SequenceTestsData(new AdventurerSequence[]{AdventurerSequence.A, AdventurerSequence.A, AdventurerSequence.G, AdventurerSequence.D}, 6, 6, Orientation.S, 8, 6)
+        );
+    }
 
 
 
