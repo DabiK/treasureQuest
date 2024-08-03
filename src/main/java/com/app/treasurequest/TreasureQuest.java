@@ -1,6 +1,8 @@
 package main.java.com.app.treasurequest;
 
 import main.java.com.app.Board;
+import main.java.com.app.CellValue;
+import main.java.com.app.Treasure;
 import main.java.com.app.adventurer.Adventurer;
 import main.java.com.app.exception.InvalidStartingPositionException;
 
@@ -22,11 +24,22 @@ public class TreasureQuest {
 
 
     public void runSimulation(){
-
-
-
-
-
+        boolean endGame = false;
+        Set<String> positions = new HashSet<>();
+        do{
+            endGame = false;
+            // make one round
+            for (Adventurer adventurer : adventurers) {
+                boolean forecast = adventurer.forcastNextSequence(positions);
+                if (forecast) {
+                    adventurer.runNextSequence();
+                }
+                positions.add(adventurer.getPositionAsString());
+                endGame = endGame || !adventurer.hasNextSequence();
+            }
+            positions.clear();
+            positions.clear();
+        }while (!endGame);
     }
 
 

@@ -1,11 +1,9 @@
 package main.java.com.app.adventurer;
 
 import main.java.com.app.Board;
+import main.java.com.app.exception.TreasureNotCollectible;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.NoSuchElementException;
+import java.util.*;
 
 public class Adventurer {
 
@@ -81,6 +79,15 @@ public class Adventurer {
         if((board != null && board.isStepable(nextPos[0], nextPos[1])) || board == null){
             this.i = nextPos[0];
             this.j = nextPos[1];
+
+            if (board != null && board.isTreasureAt(i, j)) {
+                this.incTreasure();
+                try {
+                    board.collectTreasure(i, j);
+                } catch (TreasureNotCollectible e) { // should not happen in a non concurrent scenario
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -97,16 +104,28 @@ public class Adventurer {
         return new Integer[]{newI, newJ};
     }
 
+
+    public boolean forcastNextSequence(Set<String> blockedPositions) {
+        Integer[] nextPos = this.nextPosition();
+        int newI = nextPos[0];
+        int newJ = nextPos[1];
+        return this.hasNextSequence() && !blockedPositions.contains(String.format("%d-%d", newI,newJ)) && board.isStepable(newI, newJ);
+    }
+
     public void runSequence() {
         Arrays.stream(sequence).forEach(this::processCommand);
     }
 
     public boolean runNextSequence(){
-        if(currentIndex >= sequence.length){
+        if(!this.hasNextSequence()){
             return false;
         }
         this.processCommand(sequence[currentIndex++]);
         return true;
+    }
+
+    public boolean hasNextSequence(){
+        return currentIndex < sequence.length;
     }
 
     private void processCommand(AdventurerSequence adventurerSequence) {
@@ -146,12 +165,24 @@ public class Adventurer {
         return sequence;
     }
 
+    public int getTreasure(){
+        return treasure;
+    }
+
     @Override
     public String toString() {
         return String.format("%s - %d - %d - %s - %d", name,j, i, orientation,treasure);
     }
 
+    public String getPositionAsString(){
+        return String.format("%d-%d", i,j);
+    }
+
     public Board getBoard() {
         return board;
+    }
+
+    public void incTreasure() {
+        treasure++;
     }
 }

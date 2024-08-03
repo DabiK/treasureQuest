@@ -1,6 +1,7 @@
 package main.java.com.app;
 
 import main.java.com.app.adventurer.Adventurer;
+import main.java.com.app.exception.TreasureNotCollectible;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,6 +65,16 @@ public class Board {
 
 
 
+
+    public void collectTreasure(int i, int j) throws TreasureNotCollectible {
+        if(!this.isTreasureAt(i,j)){
+            throw new TreasureNotCollectible();
+        }
+        Treasure treasure = (Treasure) this.getValueAt(i,j);
+        grid[i][j].setValue(new Treasure(Math.max(0, treasure.amount() - 1)  ,i,j));
+    }
+
+
     public CellValue getValueAt(int i, int j) {
         Cell cell = this.isValidCoords(i, j) ? this.grid[i][j] : null;
         return cell == null ? null : cell.getValue();
@@ -73,7 +84,9 @@ public class Board {
         return i >= 0 && i < this.height && j >=0 && j < this.width;
     }
 
-
+    public boolean isTreasureAt(int i, int j) {
+        return isValidCoords(i,j) && this.grid[i][j].getValue() instanceof Treasure && ((Treasure) this.grid[i][j].getValue()).amount() > 0;
+    }
 
     public boolean isStepable(int i, int j) {
         if(!this.isValidCoords(i,j)){
