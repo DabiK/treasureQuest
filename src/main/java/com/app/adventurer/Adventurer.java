@@ -15,7 +15,7 @@ public class Adventurer {
     private Board board;
     private AdventurerSequence[] sequence;
     private int currentIndex;
-    public static final String KEY = "A";
+    public static final char KEY = 'A';
 
 
     private static final Map<Orientation, Orientation> turnLeftMapping = Map.of(

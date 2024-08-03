@@ -76,7 +76,7 @@ public class TreasureQuestParser {
                         board.createTreasures(treasureAmount, treasureI, treasureJ);
 
                     }
-                    else if (CellType.ADVENTURER.getKey() == itemType){
+                    else if (Adventurer.KEY == itemType){
                         checkChunksLength(chunks, 6,lineIndex.get());
                         String name = chunks[1];
                         int adventuredJ = Integer.parseInt(chunks[2]);
