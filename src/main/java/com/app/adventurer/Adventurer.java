@@ -3,9 +3,12 @@ package main.java.com.app.adventurer;
 import main.java.com.app.Board;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.Map;
+import java.util.NoSuchElementException;
 
 public class Adventurer {
+
 
     private String name;
     private int i;
@@ -14,6 +17,7 @@ public class Adventurer {
     private Orientation orientation;
     private Board board;
     private AdventurerSequence[] sequence;
+    private int currentIndex;
 
     private static final Map<Orientation, Orientation> turnLeftMapping = Map.of(
             Orientation.E, Orientation.N,
@@ -43,7 +47,7 @@ public class Adventurer {
         this.j = j;
         this.treasure = treasure;
         this.board = board;
-
+        this.currentIndex = 0;
         if(board != null){
             if(!board.isValidCoords(i,j)){
                 throw new IllegalArgumentException("Initial position invalid");
@@ -95,6 +99,14 @@ public class Adventurer {
 
     public void runSequence() {
         Arrays.stream(sequence).forEach(this::processCommand);
+    }
+
+    public boolean runNextSequence(){
+        if(currentIndex >= sequence.length){
+            return false;
+        }
+        this.processCommand(sequence[currentIndex++]);
+        return true;
     }
 
     private void processCommand(AdventurerSequence adventurerSequence) {

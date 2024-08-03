@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import java.util.Iterator;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
@@ -132,6 +133,37 @@ class AdventurerTest {
         assertEquals(sequenceTestData.expectedI(),adventurer.getI());
         assertEquals(sequenceTestData.expectedJ(), adventurer.getJ());
     }
+
+
+    @Test
+    public void runNextSequence_shouldSucceed(){
+        String name = "Luffy";
+        int i = 0;
+        int j = 0;
+        Orientation orientation = Orientation.E;
+        AdventurerSequence[] sequence = { AdventurerSequence.A, AdventurerSequence.D, AdventurerSequence.A };
+        Adventurer adventurer = new Adventurer(name, i, j, orientation, sequence);
+
+        // run 2 next
+        assertTrue(adventurer.runNextSequence());
+        assertEquals(adventurer.getI(),0);
+        assertEquals(adventurer.getJ(),1);
+
+
+        assertTrue(adventurer.runNextSequence());
+        assertEquals(adventurer.getI(),0);
+        assertEquals(adventurer.getJ(),1);
+        assertEquals(adventurer.getOrientation(), Orientation.S);
+
+
+        assertTrue(adventurer.runNextSequence());
+        assertEquals(adventurer.getI(),1);
+        assertEquals(adventurer.getJ(),1);
+        assertEquals(adventurer.getOrientation(), Orientation.S);
+
+        assertFalse(adventurer.runNextSequence());
+    }
+    
 
     private record SequenceTestsData(AdventurerSequence[] sequence, int startI, int startJ, Orientation startOrientation, int expectedI, int expectedJ) {};
 
