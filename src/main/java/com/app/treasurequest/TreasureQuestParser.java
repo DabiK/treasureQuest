@@ -1,7 +1,7 @@
 package main.java.com.app.treasurequest;
 
-import main.java.com.app.Board;
-import main.java.com.app.CellType;
+import main.java.com.app.board.Board;
+import main.java.com.app.board.CellType;
 import main.java.com.app.adventurer.Adventurer;
 import main.java.com.app.adventurer.AdventurerSequence;
 import main.java.com.app.adventurer.Orientation;

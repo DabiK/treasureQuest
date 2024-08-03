@@ -1,6 +1,5 @@
-package main.java.com.app;
+package main.java.com.app.board;
 
-import main.java.com.app.adventurer.Adventurer;
 import main.java.com.app.exception.TreasureNotCollectible;
 
 import java.util.ArrayList;

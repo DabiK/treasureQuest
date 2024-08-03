@@ -1,4 +1,4 @@
-package main.java.com.app;
+package main.java.com.app.board;
 
 import java.util.Objects;
 

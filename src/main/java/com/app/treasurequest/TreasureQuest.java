@@ -1,8 +1,6 @@
 package main.java.com.app.treasurequest;
 
-import main.java.com.app.Board;
-import main.java.com.app.CellValue;
-import main.java.com.app.Treasure;
+import main.java.com.app.board.Board;
 import main.java.com.app.adventurer.Adventurer;
 import main.java.com.app.exception.InvalidStartingPositionException;
 

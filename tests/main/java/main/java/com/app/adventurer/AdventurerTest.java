@@ -1,12 +1,11 @@
 package main.java.com.app.adventurer;
 
-import main.java.com.app.Board;
+import main.java.com.app.board.Board;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.Iterator;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.*;

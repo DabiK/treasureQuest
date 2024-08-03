@@ -1,8 +1,9 @@
-package main.java.com.app;
+package main.java.com.app.board;
 
-import main.java.com.app.adventurer.Adventurer;
-import main.java.com.app.adventurer.AdventurerSequence;
-import main.java.com.app.adventurer.Orientation;
+import main.java.com.app.board.Board;
+import main.java.com.app.board.CellValue;
+import main.java.com.app.board.Mountain;
+import main.java.com.app.board.Treasure;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;

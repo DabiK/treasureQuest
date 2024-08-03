@@ -1,6 +1,6 @@
 package main.java.com.app.adventurer;
 
-import main.java.com.app.Board;
+import main.java.com.app.board.Board;
 import main.java.com.app.exception.InvalidStartingPositionException;
 import main.java.com.app.exception.TreasureNotCollectible;
 
